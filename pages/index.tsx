@@ -1,34 +1,74 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import Ranking from '../components/Ranking/Ranking';
 import styled from 'styled-components';
+import { cloneDeep } from 'lodash';
+import { UserType } from '../type/userType';
 
 const Home: NextPage = () => {
-  const [userList, setUserList] = useState({});
+  const [userList, setUserList] = useState<UserType[]>([]);
 
   useEffect(() => {
     axios.get('/api/users').then((res) => {
-      if (res.status === 200) {
-        setUserList(res.data.result);
-      } else {
-        console.log('error');
-      }
+      setUserList(res.data.data.result);
     });
   }, []);
 
+  const levelRank = useMemo(() => {
+    return cloneDeep(userList).sort((prev, curr) => curr.lv - prev.lv);
+  }, [userList]);
+
+  const pvpRank = useMemo(() => {
+    return cloneDeep(userList).sort(
+      (prev, curr) => curr.pvp_rank - prev.pvp_rank
+    );
+  }, [userList]);
+
+  console.log(pvpRank);
+
   return (
-    <div>
+    <Wrapper>
       <Head>
-        <title>Worlds</title>
+        <title>World of War</title>
+        <link rel="shortcut icon" href="/image/sword.png" />
         <meta name="main" content="메인 페이지입니다." />
       </Head>
-      <Ranking />
-    </div>
+      <BodyWrap>
+        <RankBox>
+          <RankingTitle>Level Rank</RankingTitle>
+          <Ranking list={levelRank} />
+        </RankBox>
+        <RankBox>
+          <RankingTitle>PVP Rank</RankingTitle>
+          <Ranking list={pvpRank} />
+        </RankBox>
+      </BodyWrap>
+    </Wrapper>
   );
 };
 
 export default Home;
 
-const BodyWrap = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+  height: 1200px;
+  background-color: ${({ theme }) => theme.colors.mainColor};
+`;
+
+const BodyWrap = styled.div`
+  display: flex;
+  width: 1200px;
+  margin: 20px auto 0 auto;
+`;
+const RankBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+`;
+
+const RankingTitle = styled.div`
+  margin: 30px 0 15px 10px;
+  font-weight: 600;
+`;

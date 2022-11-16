@@ -19,5 +19,5 @@ export default Layout;
 
 const MainWrap = styled.div`
   width: 100%;
-  background-color: ${({ theme }) => theme.mainColor};
+  background-color: ${({ theme }) => theme.colors.mainColor};
 `;
