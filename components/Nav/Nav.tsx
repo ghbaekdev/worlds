@@ -1,17 +1,20 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../../public/image/Cursor.png';
+import logo from '../../public/image/sword.png';
 
 const Nav_Links = ['Ranking', 'Country', 'Reward', 'Stage'];
 
 const Nav = () => {
   return (
     <NavWrap>
-      <NavTitle>
-        <Image src={logo} alt="logo" width={60} height={60} />
-        <span>Worlds</span>
-      </NavTitle>
+      <Link href="/">
+        <NavTitle>
+          <Image src={logo} alt="logo" width={50} height={50} />
+          <span>World</span>
+        </NavTitle>
+      </Link>
       <CategoriesWrap>
         {Nav_Links.map((category) => {
           return <NavCategories key={category}>{category}</NavCategories>;
@@ -34,13 +37,14 @@ const NavWrap = styled.div`
 
 const NavTitle = styled.header`
   display: flex;
-  font-size: 30px;
-  font-weight: 500;
+  font-size: 32px;
+  font-weight: 600;
   line-height: 60px;
   text-align: center;
+  cursor: pointer;
 
   span {
-    margin-left: 10px;
+    margin-left: 20px;
   }
 `;
 
