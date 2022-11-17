@@ -1,14 +1,15 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useMemo } from 'react';
 import Ranking from '../components/Ranking/Ranking';
 import styled from 'styled-components';
 import { cloneDeep } from 'lodash';
-import { UserType } from '../type/userType';
+import { userListState } from '../store/store';
+import { useRecoilState } from 'recoil';
+import axios from 'axios';
 
 const Home: NextPage = () => {
-  const [userList, setUserList] = useState<UserType[]>([]);
+  const [userList, setUserList] = useRecoilState(userListState);
 
   useEffect(() => {
     axios.get('/api/users').then((res) => {
@@ -22,11 +23,9 @@ const Home: NextPage = () => {
 
   const pvpRank = useMemo(() => {
     return cloneDeep(userList).sort(
-      (prev, curr) => curr.pvp_rank - prev.pvp_rank
+      (prev, curr) => prev.pvp_rank - curr.pvp_rank
     );
   }, [userList]);
-
-  console.log(pvpRank);
 
   return (
     <Wrapper>
@@ -51,13 +50,13 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 100%;
   height: 1200px;
   background-color: ${({ theme }) => theme.colors.mainColor};
 `;
 
-const BodyWrap = styled.div`
+export const BodyWrap = styled.div`
   display: flex;
   width: 1200px;
   margin: 20px auto 0 auto;

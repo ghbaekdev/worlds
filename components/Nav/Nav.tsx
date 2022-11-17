@@ -4,12 +4,25 @@ import React from 'react';
 import styled from 'styled-components';
 import logo from '../../public/image/sword.png';
 
-const Nav_Links = ['Ranking', 'Country', 'Reward', 'Stage'];
+const Nav_Links = [
+  {
+    title: 'Ranking',
+    url: '/',
+  },
+  {
+    title: 'Country/Reward',
+    url: '/reward',
+  },
+  {
+    title: 'Stage',
+    url: '/stage',
+  },
+];
 
 const Nav = () => {
   return (
     <NavWrap>
-      <Link href="/">
+      <Link href="/" style={{ color: 'black' }} passHref>
         <NavTitle>
           <Image src={logo} alt="logo" width={50} height={50} />
           <span>World</span>
@@ -17,7 +30,15 @@ const Nav = () => {
       </Link>
       <CategoriesWrap>
         {Nav_Links.map((category) => {
-          return <NavCategories key={category}>{category}</NavCategories>;
+          return (
+            <Link
+              href={category.url}
+              key={category.title}
+              passHref
+              style={{ color: 'black' }}>
+              <NavCategories>{category.title}</NavCategories>
+            </Link>
+          );
         })}
       </CategoriesWrap>
     </NavWrap>

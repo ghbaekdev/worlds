@@ -14,6 +14,7 @@
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.189",
     "@types/material-ui-pagination": "^1.0.4",
+    "@types/recoil": "^0.0.9",
     "@types/styled-components": "^5.1.26",
     "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.1.0",
@@ -21,6 +22,7 @@
     "react": "18.2.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "18.2.0",
+    "recoil": "^0.7.6",
     "styled-components": "^5.3.6",
     "styled-normalize": "^8.0.7"
   },
