@@ -1,21 +1,28 @@
 import React, { useEffect } from 'react';
-import { userListState } from '../store/store';
+import { userListState, loadingState } from '../store/store';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import * as S from './index';
+import * as S from './ranking';
 import axios from 'axios';
 import { UserType } from '../type/userType';
 import PieChart from '../components/PieChart/PieChart';
 import BarChart from '../components/BarChart/BarChart';
 import Head from 'next/head';
+import Loading from '../components/Loading/Loading';
 
 const Reward = () => {
   const [userList, setUserList] = useRecoilState(userListState);
+  const [loading, setLoading] = useRecoilState(loadingState);
 
   useEffect(() => {
-    axios.get('/api/users').then((res) => {
-      setUserList(res.data.data.result);
-    });
+    setLoading(true);
+    axios
+      .get('/api/users')
+      .then((res) => {
+        setUserList(res.data.data.result);
+        setLoading(false);
+      })
+      .catch((error) => console.log('error'));
   }, []);
 
   const countryFilter = (country: string) => {
@@ -31,6 +38,8 @@ const Reward = () => {
     );
     return result.length;
   };
+
+  if (loading) return <Loading />;
 
   return (
     <S.Wrapper>

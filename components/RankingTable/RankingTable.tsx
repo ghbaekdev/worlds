@@ -10,17 +10,23 @@ import { UserListType, UserType } from '../../type/userType';
 import usePagination from '../../hooks/usePagination';
 import Pagination from '@mui/material/Pagination';
 import styled from 'styled-components';
+import sword from '../../public/image/sword.png';
+import wand from '../../public/image/wand.png';
+import shield from '../../public/image/shield.png';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-const Ranking = ({ list }: UserListType) => {
+const RankingTable = ({ list }: UserListType) => {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const PER_PAGE = 10;
 
   const count = Math.ceil(list.length / PER_PAGE);
-  const _DATA = usePagination(list, PER_PAGE);
+  const DATA = usePagination(list, PER_PAGE);
 
   const handleChange = (e: ChangeEvent<unknown>, page: number) => {
     setPage(page);
-    _DATA.jump(page);
+    DATA.jump(page);
   };
   return (
     <TableWrap>
@@ -28,14 +34,15 @@ const Ranking = ({ list }: UserListType) => {
         <Table sx={{ maxWidth: 500 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Rank</TableCell>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Lv</TableCell>
-              <TableCell align="center">Stats</TableCell>
+              <TableCell align="center">Rank</TableCell>
+              <TableCell align="center">ID</TableCell>
+              <TableCell align="center">Lv</TableCell>
+              <TableCell align="left">Stage</TableCell>
+              <TableCell align="left">Stats</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {_DATA.currentData().map((users: UserType, index: number) => {
+            {DATA.currentData().map((users: UserType, index: number) => {
               let rank;
               if (page > 1) {
                 rank = index + 1 + (page - 1) * 10;
@@ -55,16 +62,33 @@ const Ranking = ({ list }: UserListType) => {
                 <TableRow
                   key={users.uid}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row">
-                    {rank}
+                  <TableCell component="th" scope="row" align="center">
+                    {router.pathname === '/' ? rank + 3 : rank}
                   </TableCell>
-                  <TableCell align="left">{users.uid}</TableCell>
-                  <TableCell align="left">{users.lv}</TableCell>
+                  <TableCell align="center">
+                    <RankNumber>{users.uid}</RankNumber>
+                  </TableCell>
+                  <TableCell align="center">{users.lv}</TableCell>
+                  <TableCell align="left">{users.last_stage}</TableCell>
                   <TableCell align="center">
                     <StatsBox>
-                      <span>attack: + {userItem.attack}</span>
-                      <span>magic: + {userItem.magic}</span>
-                      <span>defence: + {userItem.defence}</span>
+                      <span>
+                        <Image src={sword} alt="sword" width={18} height={16} />
+                        + {userItem.attack}
+                      </span>
+                      <span>
+                        <Image src={wand} alt="wand" width={18} height={16} />+{' '}
+                        {userItem.magic}
+                      </span>
+                      <span>
+                        <Image
+                          src={shield}
+                          alt="shield"
+                          width={18}
+                          height={16}
+                        />
+                        + {userItem.defence}
+                      </span>
                     </StatsBox>
                   </TableCell>
                 </TableRow>
@@ -86,7 +110,7 @@ const Ranking = ({ list }: UserListType) => {
   );
 };
 
-export default Ranking;
+export default RankingTable;
 
 const TableWrap = styled.div`
   display: flex;
@@ -96,8 +120,12 @@ const TableWrap = styled.div`
 const StatsBox = styled.div`
   display: flex;
   flex-direction: column;
+  width: 60px;
+  align-items: flex-start;
 
   span {
     font-size: 14px;
   }
 `;
+
+const RankNumber = styled.div``;
