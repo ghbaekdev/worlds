@@ -61,7 +61,7 @@ const Home: NextPage = () => {
   return (
     <Wrapper>
       <Head>
-        <title>World of War</title>
+        <title>World Log</title>
         <link rel="shortcut icon" href="/image/sword.png" />
         <meta name="main" content="메인 페이지입니다." />
       </Head>
@@ -86,7 +86,7 @@ const Home: NextPage = () => {
           onClick={() => searchStage(inputValue)}
         />
 
-        <button onClick={() => setfilterList([])}>전체</button>
+        <button onClick={() => setfilterList([])}>ALL</button>
       </SearchBox>
       <RankingBox>
         {filterList.length === 0 ? (
@@ -127,5 +127,14 @@ const SearchBox = styled.div`
   button {
     height: 36px;
     margin: 0 10px;
+    background-color: ${({ theme }) => theme.colors.white};
+    border-radius: 5px;
+    border: 1px rgba(0, 0, 0, 0.3) solid;
+    cursor: pointer;
+
+    &:hover {
+      background: ${({ theme }) => theme.colors.deepGrey};
+      color: ${({ theme }) => theme.colors.white};
+    }
   }
 `;

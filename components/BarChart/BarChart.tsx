@@ -7,9 +7,11 @@ import {
   PointElement,
   LineElement,
   BarElement,
+  registerables,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
+import { rgbToHex } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -23,14 +25,6 @@ const options = {
   plugins: {
     legend: {
       display: false,
-      // position: 'bottom' as const,
-      // labels: {
-      //   padding: 15,
-      //   font: {
-      //     family: "'Noto Sans KR', 'serif'",
-      //     lineHeight: 1,
-      //   },
-      // },
     },
   },
   responsive: true,
@@ -69,6 +63,8 @@ const BarChart = ({ filter }: FilterType) => {
           'rgb(255, 224, 130)',
         ],
         barThickness: 35,
+        borderWidth: 1,
+        borderColor: 'rgb(0,0,0)',
       },
     ],
   };

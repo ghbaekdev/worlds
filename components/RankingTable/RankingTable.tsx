@@ -70,25 +70,25 @@ const RankingTable = ({ list }: UserListType) => {
                   </TableCell>
                   <TableCell align="center">{users.lv}</TableCell>
                   <TableCell align="left">{users.last_stage}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="right">
                     <StatsBox>
-                      <span>
+                      <Stats>
                         <Image src={sword} alt="sword" width={18} height={16} />
-                        + {userItem.attack}
-                      </span>
-                      <span>
-                        <Image src={wand} alt="wand" width={18} height={16} />+{' '}
-                        {userItem.magic}
-                      </span>
-                      <span>
+                        <span>+ {userItem.attack}</span>
+                      </Stats>
+                      <Stats>
+                        <Image src={wand} alt="wand" width={18} height={16} />
+                        <span>+ {userItem.magic}</span>
+                      </Stats>
+                      <Stats>
                         <Image
                           src={shield}
-                          alt="shield"
+                          alt="shiel"
                           width={18}
                           height={16}
                         />
-                        + {userItem.defence}
-                      </span>
+                        <span>+ {userItem.defence}</span>
+                      </Stats>
                     </StatsBox>
                   </TableCell>
                 </TableRow>
@@ -122,9 +122,17 @@ const StatsBox = styled.div`
   flex-direction: column;
   width: 60px;
   align-items: flex-start;
+`;
+
+const Stats = styled.div`
+  height: 16px;
+  display: flex;
 
   span {
+    margin: 0 0 3px 3px;
     font-size: 14px;
+    line-height: 16px;
+    text-align: center;
   }
 `;
 

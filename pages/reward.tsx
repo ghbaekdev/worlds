@@ -22,7 +22,7 @@ const Reward = () => {
         setUserList(res.data.data.result);
         setLoading(false);
       })
-      .catch((error) => console.log('error'));
+      .catch((error) => console.log(error, '통신에러'));
   }, []);
 
   const countryFilter = (country: string) => {
@@ -42,9 +42,9 @@ const Reward = () => {
   if (loading) return <Loading />;
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <Head>
-        <title>World of War</title>
+        <title>World Log</title>
         <link rel="shortcut icon" href="/image/sword.png" />
         <meta name="main" content="메인 페이지입니다." />
       </Head>
@@ -58,11 +58,15 @@ const Reward = () => {
           <BarChart filter={rewardFilter} />
         </ChartBox>
       </S.BodyWrap>
-    </S.Wrapper>
+    </Wrapper>
   );
 };
 
 export default Reward;
+
+const Wrapper = styled(S.Wrapper)`
+  height: 1000px;
+`;
 
 const ChartBox = styled.div`
   display: flex;

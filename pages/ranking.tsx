@@ -37,7 +37,7 @@ const Ranking = () => {
   return (
     <Wrapper>
       <Head>
-        <title>World of War</title>
+        <title>World Log</title>
         <link rel="shortcut icon" href="/image/sword.png" />
         <meta name="main" content="메인 페이지입니다." />
       </Head>

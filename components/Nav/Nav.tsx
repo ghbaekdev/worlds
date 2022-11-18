@@ -25,8 +25,14 @@ const Nav = () => {
     <NavWrap>
       <Link href="/" style={{ color: 'black' }} passHref>
         <NavTitle>
-          <Image src={logo} alt="logo" width={50} height={50} />
-          <span>World</span>
+          <Image
+            src={logo}
+            alt="logo"
+            width={40}
+            height={40}
+            style={{ marginBottom: '5px' }}
+          />
+          <span>World Log</span>
         </NavTitle>
       </Link>
       <CategoriesWrap>
@@ -59,12 +65,13 @@ const NavWrap = styled.div`
 
 const NavTitle = styled.header`
   display: flex;
+  align-items: center;
   font-size: 32px;
   font-weight: 600;
   line-height: 60px;
   text-align: center;
   cursor: pointer;
-
+  width: 300px;
   span {
     margin-left: 20px;
   }
@@ -73,7 +80,7 @@ const NavTitle = styled.header`
 const CategoriesWrap = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 500px;
+  justify-content: flex-end;
   width: 100%;
 `;
 

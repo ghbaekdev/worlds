@@ -30,7 +30,7 @@ const CardWrap = styled.div`
   flex-direction: column;
   margin: 0 15px;
   border-radius: 15px;
-  padding-top: 10px;
+  padding-top: 20px;
   cursor: pointer;
 
   &:hover {
