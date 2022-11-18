@@ -1,31 +1,59 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { useEffect, useMemo } from 'react';
-import Ranking from '../components/Ranking/Ranking';
-import styled from 'styled-components';
-import { cloneDeep } from 'lodash';
-import { userListState } from '../store/store';
-import { useRecoilState } from 'recoil';
 import axios from 'axios';
+import type { NextPage } from 'next';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { userListState, loadingState } from '../store/store';
+import * as S from './ranking';
+import { cloneDeep } from 'lodash';
+import Head from 'next/head';
+import styled from 'styled-components';
+import TrophyCard from '../components/TrophyCard/TrophyCard';
+import RankingTable from '../components/RankingTable/RankingTable';
+import Loading from '../components/Loading/Loading';
+import { UserType } from '../type/userType';
 
 const Home: NextPage = () => {
   const [userList, setUserList] = useRecoilState(userListState);
+  const [inputValue, setInputValue] = useState('');
+  const [loading, setLoading] = useRecoilState(loadingState);
+  const [filterList, setfilterList] = useState<UserType[] | undefined>();
 
   useEffect(() => {
-    axios.get('/api/users').then((res) => {
-      setUserList(res.data.data.result);
-    });
+    setLoading(true);
+    axios
+      .get('/api/users')
+      .then((res) => {
+        setUserList(res.data.data.result);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error, '통신에러'));
   }, []);
 
-  const levelRank = useMemo(() => {
-    return cloneDeep(userList).sort((prev, curr) => curr.lv - prev.lv);
+  const stageRank = useMemo(() => {
+    return cloneDeep(userList).sort((prev, curr) => {
+      if (curr.last_stage.split('-')[0] === prev.last_stage.split('-')[0]) {
+        return (
+          Number(curr.last_stage.split('-')[1]) -
+          Number(prev.last_stage.split('-')[1])
+        );
+      } else {
+        return (
+          Number(curr.last_stage.split('-')[0]) -
+          Number(prev.last_stage.split('-')[0])
+        );
+      }
+    });
   }, [userList]);
 
-  const pvpRank = useMemo(() => {
-    return cloneDeep(userList).sort(
-      (prev, curr) => prev.pvp_rank - curr.pvp_rank
-    );
-  }, [userList]);
+  const searchStage = (inputValue: string) => {
+    const result = userList.filter((user) => {
+      return user.last_stage === inputValue;
+    });
+    setfilterList(result);
+    setInputValue('');
+  };
+
+  if (loading) return <Loading />;
 
   return (
     <Wrapper>
@@ -34,40 +62,47 @@ const Home: NextPage = () => {
         <link rel="shortcut icon" href="/image/sword.png" />
         <meta name="main" content="메인 페이지입니다." />
       </Head>
-      <BodyWrap>
-        <RankBox>
-          <RankingTitle>Level Rank</RankingTitle>
-          <Ranking list={levelRank} />
-        </RankBox>
-        <RankBox>
-          <RankingTitle>PVP Rank</RankingTitle>
-          <Ranking list={pvpRank} />
-        </RankBox>
-      </BodyWrap>
+      <TrophyCardBox>
+        {stageRank.slice(0, 3).map((user, index) => {
+          return <TrophyCard data={user} index={index} key={user.uid} />;
+        })}
+      </TrophyCardBox>
+      <SearchInput
+        type="text"
+        placeholder="stage ex: 11-10"
+        onChange={(e: any) => setInputValue(e.target.value)}
+        value={inputValue}
+      />
+      <SearchButton onClick={() => searchStage(inputValue)}>검색</SearchButton>
+      <SearchButton onClick={() => setfilterList()}>전체</SearchButton>
+      <RankingBox>
+        {filterList ? (
+          <RankingTable list={filterList} />
+        ) : (
+          <RankingTable list={stageRank.slice(3, stageRank.length)} />
+        )}
+      </RankingBox>
     </Wrapper>
   );
 };
 
 export default Home;
 
-export const Wrapper = styled.div`
-  width: 100%;
-  height: 1200px;
-  background-color: ${({ theme }) => theme.colors.mainColor};
+const Wrapper = styled(S.Wrapper)`
+  height: 1600px;
 `;
 
-export const BodyWrap = styled.div`
+const TrophyCardBox = styled.div`
   display: flex;
-  width: 1200px;
-  margin: 20px auto 0 auto;
-`;
-const RankBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
+  width: 700px;
+  margin: 50px auto 0 auto;
 `;
 
-const RankingTitle = styled.div`
-  margin: 30px 0 15px 10px;
-  font-weight: 600;
+const RankingBox = styled.div`
+  width: 500px;
+  margin: 50px auto 0 auto;
 `;
+
+const SearchInput = styled.input``;
+
+const SearchButton = styled.button``;

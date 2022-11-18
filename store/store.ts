@@ -5,3 +5,8 @@ export const userListState = atom<UserType[]>({
   key: 'userlist',
   default: [],
 });
+
+export const loadingState = atom<boolean>({
+  key: 'loading',
+  default: false,
+});

@@ -2,20 +2,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../../public/image/sword.png';
+import logo from '../../public/image/logo.png';
 
 const Nav_Links = [
   {
-    title: 'Ranking',
+    title: 'Stage',
     url: '/',
   },
   {
     title: 'Country/Reward',
     url: '/reward',
   },
+
   {
-    title: 'Stage',
-    url: '/stage',
+    title: 'Ranking',
+    url: '/ranking',
   },
 ];
 
