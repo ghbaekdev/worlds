@@ -127,9 +127,9 @@ const StatsBox = styled.div`
 const Stats = styled.div`
   height: 16px;
   display: flex;
-
+  margin-bottom: 5px;
   span {
-    margin: 0 0 3px 3px;
+    margin-left: 5px;
     font-size: 14px;
     line-height: 16px;
     text-align: center;
