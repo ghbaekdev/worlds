@@ -61,17 +61,30 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 1200px;
   background-color: ${({ theme }) => theme.colors.mainColor};
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 2500px;
+    width: ${({ theme }) => theme.mobile};
+  }
 `;
 
 export const BodyWrap = styled.div`
   display: flex;
   width: 1200px;
   margin: 20px auto 0 auto;
+  @media ${({ theme }) => theme.responsive.mobile} {
+    flex-direction: column;
+    width: ${({ theme }) => theme.mobile};
+  }
 `;
 const RankBox = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    margin: 50px auto 0 auto;
+    width: ${({ theme }) => theme.small};
+  }
 `;
 
 const RankingTitle = styled.div`

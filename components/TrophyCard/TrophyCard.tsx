@@ -38,6 +38,10 @@ const CardWrap = styled.div`
     width: 240px;
     height: 270px;
   }
+  @media ${({ theme }) => theme.responsive.mobile} {
+    width: 150px;
+    margin: 0 auto;
+  }
 `;
 
 const CardId = styled.span`

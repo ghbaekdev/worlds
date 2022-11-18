@@ -115,6 +115,10 @@ export default RankingTable;
 const TableWrap = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    /* align-items: flex-e; */
+  }
 `;
 
 const StatsBox = styled.div`

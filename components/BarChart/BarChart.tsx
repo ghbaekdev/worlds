@@ -85,4 +85,8 @@ export default BarChart;
 const BarWrap = styled.div`
   width: 600px;
   height: 800px;
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 500px;
+  }
 `;

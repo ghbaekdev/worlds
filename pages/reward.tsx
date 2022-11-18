@@ -66,6 +66,10 @@ export default Reward;
 
 const Wrapper = styled(S.Wrapper)`
   height: 1000px;
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 1500px;
+    width: ${({ theme }) => theme.mobile};
+  }
 `;
 
 const ChartBox = styled.div`
@@ -76,5 +80,9 @@ const ChartBox = styled.div`
     font-size: 24px;
     font-weight: 600;
     margin: 100px 0 0 100px;
+
+    @media ${({ theme }) => theme.responsive.mobile} {
+      margin: 50px 0 0 30px;
+    }
   }
 `;

@@ -69,4 +69,6 @@ export default PieChart;
 const DoughnutWrap = styled.div`
   width: 600px;
   height: 800px;
+  display: flex;
+  justify-content: center;
 `;

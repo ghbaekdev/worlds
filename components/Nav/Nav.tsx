@@ -61,6 +61,12 @@ const NavWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    flex-direction: column;
+    width: 500px;
+    margin: 0 auto;
+  }
 `;
 
 const NavTitle = styled.header`
@@ -75,6 +81,10 @@ const NavTitle = styled.header`
   span {
     margin-left: 20px;
   }
+
+  @media ${({theme}) => theme.responsive.mobile} {
+    width: 220px;
+  }
 `;
 
 const CategoriesWrap = styled.div`
@@ -82,10 +92,17 @@ const CategoriesWrap = styled.div`
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+  @media ${({theme}) => theme.responsive.mobile} {
+    flex-direction: column;
+    width: 500px;
+  }
 `;
 
 const NavCategories = styled.div`
   margin: 0 20px;
   font-weight: 500;
   cursor: pointer;
+  @media ${({theme}) => theme.responsive.mobile}{
+    margin-bottom: 10px;
+  }
 `;
