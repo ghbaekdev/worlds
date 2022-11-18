@@ -11,12 +11,14 @@ import TrophyCard from '../components/TrophyCard/TrophyCard';
 import RankingTable from '../components/RankingTable/RankingTable';
 import Loading from '../components/Loading/Loading';
 import { UserType } from '../type/userType';
+import { TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Home: NextPage = () => {
   const [userList, setUserList] = useRecoilState(userListState);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useRecoilState(loadingState);
-  const [filterList, setfilterList] = useState<UserType[] | undefined>();
+  const [filterList, setfilterList] = useState<UserType[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -49,6 +51,7 @@ const Home: NextPage = () => {
     const result = userList.filter((user) => {
       return user.last_stage === inputValue;
     });
+    console.log(result);
     setfilterList(result);
     setInputValue('');
   };
@@ -67,19 +70,29 @@ const Home: NextPage = () => {
           return <TrophyCard data={user} index={index} key={user.uid} />;
         })}
       </TrophyCardBox>
-      <SearchInput
-        type="text"
-        placeholder="stage ex: 11-10"
-        onChange={(e: any) => setInputValue(e.target.value)}
-        value={inputValue}
-      />
-      <SearchButton onClick={() => searchStage(inputValue)}>검색</SearchButton>
-      <SearchButton onClick={() => setfilterList()}>전체</SearchButton>
+      <SearchBox>
+        <TextField
+          label="STAGE"
+          placeholder="stage ex: 11-10"
+          variant="outlined"
+          name="keyword"
+          value={inputValue}
+          onChange={(e: any) => setInputValue(e.target.value)}
+          size="small"
+          style={{ background: 'white' }}
+        />
+        <SearchIcon
+          style={{ position: 'absolute', right: '200px', cursor: 'pointer' }}
+          onClick={() => searchStage(inputValue)}
+        />
+
+        <button onClick={() => setfilterList([])}>전체</button>
+      </SearchBox>
       <RankingBox>
-        {filterList ? (
-          <RankingTable list={filterList} />
-        ) : (
+        {filterList.length === 0 ? (
           <RankingTable list={stageRank.slice(3, stageRank.length)} />
+        ) : (
+          <RankingTable list={filterList} />
         )}
       </RankingBox>
     </Wrapper>
@@ -100,9 +113,19 @@ const TrophyCardBox = styled.div`
 
 const RankingBox = styled.div`
   width: 500px;
-  margin: 50px auto 0 auto;
+  margin: 10px auto 0 auto;
 `;
 
-const SearchInput = styled.input``;
+const SearchBox = styled.div`
+  width: 500px;
+  margin: 50px auto 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 
-const SearchButton = styled.button``;
+  button {
+    height: 36px;
+    margin: 0 10px;
+  }
+`;
