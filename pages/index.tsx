@@ -49,9 +49,9 @@ const Home: NextPage = () => {
 
   const searchStage = (inputValue: string) => {
     const result = userList.filter((user) => {
-      return user.last_stage === inputValue;
+      return user.last_stage.slice(0, inputValue.length) === inputValue;
     });
-    console.log(result);
+
     setfilterList(result);
     setInputValue('');
   };
