@@ -24,7 +24,13 @@ const options = {
 };
 
 interface FilterType {
-  filter: (country: string) => number;
+  filter: {
+    kr: number;
+    us: number;
+    cn: number;
+    jp: number;
+    vn: number;
+  };
 }
 
 const PieChart = ({ filter }: FilterType) => {
@@ -33,13 +39,7 @@ const PieChart = ({ filter }: FilterType) => {
     datasets: [
       {
         label: '# of Votes',
-        data: [
-          filter('kr'),
-          filter('us'),
-          filter('cn'),
-          filter('jp'),
-          filter('vn'),
-        ],
+        data: [filter.kr, filter.us, filter.cn, filter.jp, filter.vn],
         backgroundColor: [
           'rgb(229, 115, 115)',
           'rgba(38,166, 154, 0.8)',

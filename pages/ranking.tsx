@@ -1,26 +1,17 @@
 import Head from 'next/head';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import RankingTable from '../components/RankingTable/RankingTable';
 import styled from 'styled-components';
 import { cloneDeep } from 'lodash';
-import { userListState, loadingState } from '../store/store';
+import { userListState } from '../store/store';
 import { useRecoilState } from 'recoil';
-import axios from 'axios';
 import Loading from '../components/Loading/Loading';
+import useGetList from '../hooks/useGetList';
 
 const Ranking = () => {
-  const [userList, setUserList] = useRecoilState(userListState);
-  const [loading, setLoading] = useRecoilState(loadingState);
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get('/api/users')
-      .then((res) => {
-        setUserList(res.data.data.result);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error, '통신에러'));
-  }, []);
+  const [userList] = useRecoilState(userListState);
+
+  const { loading } = useGetList();
 
   const levelRank = useMemo(() => {
     return cloneDeep(userList).sort((prev, curr) => curr.lv - prev.lv);
@@ -32,7 +23,12 @@ const Ranking = () => {
     );
   }, [userList]);
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Wrapper>
+        <Loading />
+      </Wrapper>
+    );
 
   return (
     <Wrapper>

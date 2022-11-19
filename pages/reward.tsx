@@ -1,45 +1,64 @@
-import React, { useEffect } from 'react';
-import { userListState, loadingState } from '../store/store';
+import { userListState } from '../store/store';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import * as S from './ranking';
-import axios from 'axios';
 import { UserType } from '../type/userType';
 import PieChart from '../components/PieChart/PieChart';
 import BarChart from '../components/BarChart/BarChart';
 import Head from 'next/head';
 import Loading from '../components/Loading/Loading';
+import useGetList from '../hooks/useGetList';
+import { useMemo } from 'react';
 
 const Reward = () => {
-  const [userList, setUserList] = useRecoilState(userListState);
-  const [loading, setLoading] = useRecoilState(loadingState);
+  const [userList] = useRecoilState(userListState);
 
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get('/api/users')
-      .then((res) => {
-        setUserList(res.data.data.result);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error, '통신에러'));
-  }, []);
+  const { loading } = useGetList();
 
-  const countryFilter = (country: string) => {
-    const result = userList.filter(
-      (element: UserType) => element.country === country
+  const countryData = useMemo(() => {
+    const result = userList.reduce(
+      (acc, cur: UserType) => {
+        if (cur.country === 'kr') acc.kr += 1;
+        if (cur.country === 'us') acc.us += 1;
+        if (cur.country === 'cn') acc.cn += 1;
+        if (cur.country === 'jp') acc.jp += 1;
+        if (cur.country === 'vn') acc.vn += 1;
+        return acc;
+      },
+      {
+        kr: 0,
+        us: 0,
+        cn: 0,
+        jp: 0,
+        vn: 0,
+      }
     );
-    return result.length;
-  };
+    return result;
+  }, [userList]);
 
-  const rewardFilter = (reward: string) => {
-    const result = userList.filter(
-      (element: UserType) => element.reward_type === reward
+  const rewardData = useMemo(() => {
+    const result = userList.reduce(
+      (acc, cur: UserType) => {
+        if (cur.reward_type === 'VVIP') acc.vvip += 1;
+        if (cur.reward_type === 'VIP') acc.vip += 1;
+        if (cur.reward_type === 'NORMAL') acc.normal += 1;
+        return acc;
+      },
+      {
+        vvip: 0,
+        vip: 0,
+        normal: 0,
+      }
     );
-    return result.length;
-  };
+    return result;
+  }, [userList]);
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Wrapper>
+        <Loading />
+      </Wrapper>
+    );
 
   return (
     <Wrapper>
@@ -51,11 +70,11 @@ const Reward = () => {
       <S.BodyWrap>
         <ChartBox>
           <span>County</span>
-          <PieChart filter={countryFilter} />
+          <PieChart filter={countryData} />
         </ChartBox>
         <ChartBox>
           <span>Reward</span>
-          <BarChart filter={rewardFilter} />
+          <BarChart filter={rewardData} />
         </ChartBox>
       </S.BodyWrap>
     </Wrapper>

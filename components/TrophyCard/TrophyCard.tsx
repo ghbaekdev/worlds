@@ -41,6 +41,12 @@ const CardWrap = styled.div`
   @media ${({ theme }) => theme.responsive.mobile} {
     width: 150px;
     margin: 0 auto;
+
+    &:hover {
+      margin: 0;
+      width: 220px;
+      height: 250px;
+    }
   }
 `;
 

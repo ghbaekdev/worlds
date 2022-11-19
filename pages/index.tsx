@@ -1,8 +1,8 @@
 import axios from 'axios';
 import type { NextPage } from 'next';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { userListState, loadingState } from '../store/store';
+import { userListState } from '../store/store';
 import * as S from './ranking';
 import { cloneDeep } from 'lodash';
 import Head from 'next/head';
@@ -13,23 +13,14 @@ import Loading from '../components/Loading/Loading';
 import { UserType } from '../type/userType';
 import { TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import useGetList from '../hooks/useGetList';
 
 const Home: NextPage = () => {
-  const [userList, setUserList] = useRecoilState(userListState);
+  const [userList] = useRecoilState(userListState);
   const [inputValue, setInputValue] = useState('');
-  const [loading, setLoading] = useRecoilState(loadingState);
   const [filterList, setfilterList] = useState<UserType[]>([]);
 
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get('/api/users')
-      .then((res) => {
-        setUserList(res.data.data.result);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error, '통신에러'));
-  }, []);
+  const { loading } = useGetList();
 
   const stageRank = useMemo(() => {
     return cloneDeep(userList).sort((prev, curr) => {
@@ -56,7 +47,12 @@ const Home: NextPage = () => {
     setInputValue('');
   };
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Wrapper>
+        <Loading />
+      </Wrapper>
+    );
 
   return (
     <Wrapper>

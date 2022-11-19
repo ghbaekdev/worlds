@@ -7,11 +7,9 @@ import {
   PointElement,
   LineElement,
   BarElement,
-  registerables,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { rgbToHex } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -46,7 +44,11 @@ const options = {
 };
 
 interface FilterType {
-  filter: (reward: string) => any;
+  filter: {
+    vvip: number;
+    vip: number;
+    normal: number;
+  };
 }
 
 const labels = ['VVIP', 'VIP', 'NORMAL'];
@@ -56,7 +58,7 @@ const BarChart = ({ filter }: FilterType) => {
     labels,
     datasets: [
       {
-        data: [filter('VVIP'), filter('VIP'), filter('NORMAL')],
+        data: [filter.vvip, filter.vip, filter.normal],
         backgroundColor: [
           'rgb(175, 180, 43)',
           'rgb(100, 181, 246)',

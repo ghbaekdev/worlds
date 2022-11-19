@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { UserListType, UserType } from '../../type/userType';
+import { UserListType, UserType, Item } from '../../type/userType';
 import usePagination from '../../hooks/usePagination';
 import Pagination from '@mui/material/Pagination';
 import styled from 'styled-components';
@@ -50,7 +50,7 @@ const RankingTable = ({ list }: UserListType) => {
                 rank = index + 1;
               }
               let userItem = users.items.reduce(
-                (acc, cur: any) => {
+                (acc, cur: Item) => {
                   if (cur.attack) acc.attack += cur.attack;
                   if (cur.defence) acc.defence += cur.defence;
                   if (cur.magic) acc.magic += cur.magic;
@@ -115,10 +115,6 @@ export default RankingTable;
 const TableWrap = styled.div`
   display: flex;
   flex-direction: column;
-
-  @media ${({ theme }) => theme.responsive.mobile} {
-    /* align-items: flex-e; */
-  }
 `;
 
 const StatsBox = styled.div`

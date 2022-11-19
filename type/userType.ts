@@ -1,11 +1,9 @@
-export interface ItemsType {
-  items: {
-    itemId: number;
-    name: string;
-    defence?: number | undefined;
-    magic?: number | undefined;
-    attack?: number | undefined;
-  };
+export interface Item {
+  itemId: number;
+  name: string;
+  defence?: number;
+  magic?: number;
+  attack?: number;
 }
 
 export interface UserType {
@@ -13,7 +11,7 @@ export interface UserType {
   country: string;
   created_at: string;
   lv: number;
-  items: ItemsType[];
+  items: Item[];
   block_type: boolean;
   pvp_rank: number;
   reward_type: string;
