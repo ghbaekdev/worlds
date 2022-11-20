@@ -73,7 +73,9 @@ const Home: NextPage = () => {
           variant="outlined"
           name="keyword"
           value={inputValue}
-          onChange={(e: any) => setInputValue(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setInputValue(e.target.value)
+          }
           size="small"
           style={{ background: 'white' }}
         />

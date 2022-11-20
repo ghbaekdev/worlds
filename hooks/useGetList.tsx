@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { getUserList } from '../api';
+import { getUserList } from '../api/index';
 import { userListState } from '../store/store';
 
 const useGetList = () => {

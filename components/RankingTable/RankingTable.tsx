@@ -24,7 +24,7 @@ const RankingTable = ({ list }: UserListType) => {
   const count = Math.ceil(list.length / PER_PAGE);
   const DATA = usePagination(list, PER_PAGE);
 
-  const handleChange = (e: ChangeEvent<unknown>, page: number) => {
+  const handleChange = (e: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
     DATA.jump(page);
   };
